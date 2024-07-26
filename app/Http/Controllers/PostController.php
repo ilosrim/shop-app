@@ -1,0 +1,94 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\StorePostRequest;
+use Illuminate\Http\Request;
+use App\Models\Post;
+use Illuminate\View\View;
+
+class PostController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(): View
+    {
+
+        // $posts = Post::where('id', 1)->first();
+        // dd($posts->title);
+
+        # Updates
+        // $post = Post::find(3);
+        // $post->title = 'chaned title 3';
+        // $post->save();
+
+        # Mass Updates
+        // Post::where('id', 4)->update(['title' => 'updated title 4']);
+
+        $posts = Post::all();
+        return view('posts.index', [
+            'posts' =>  Post::paginate(6)
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create(): View
+    {
+        return view('posts.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StorePostRequest $request)
+    {
+        if($request->hasFile('image')) {
+            $path = $request->file('image')->store('post-images');
+        }
+
+        $post = Post::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => $path ?? null,
+            'content' => $request->content
+        ]);
+
+        return redirect()->route('posts.index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Post $post): View
+    {
+        return view('posts.show')->with([
+            'post' => $post,
+            'recent_posts' => Post::latest()->get()->except($post->id)->take(5)
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}
