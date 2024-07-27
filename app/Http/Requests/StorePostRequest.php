@@ -38,10 +38,10 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|unique:posts|max:255',
+            'title' => 'required|max:255',
             'description' => 'required',
             'content' => 'required',
-            'image' => 'nullable|image'
+            'image' => 'nullable|image|max:2048'
         ];
     }
 }

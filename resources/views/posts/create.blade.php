@@ -19,7 +19,11 @@
                         </div>
 
                         <div class="control-group mb-2">
-                            <input type="file" class="form-control p-4" name="image" placeholder="Rasm qo'shing.." />
+                            <input type="file" class="form-control p-4" name="image"
+                                placeholder="Rasm qo'shing.." value="{{ old('title') }}" />
+                            @error('image')
+                                <p class="help-block text-danger">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="control-group mb-2">

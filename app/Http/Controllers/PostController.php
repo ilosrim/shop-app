@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class PostController extends Controller
@@ -45,7 +46,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        if($request->hasFile('image')) {
+        if ($request->hasFile('image')) {
             $path = $request->file('image')->store('post-images');
         }
 
@@ -73,22 +74,45 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
+        return view('posts.edit')->with(['post' => $post]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StorePostRequest $request, Post $post)
     {
+        if ($request->hasFile('image')) {
+            if (isset($post->image)) {
+                Storage::delete($post->image);
+            }
+
+            $path = $request->file('image')->store('post-images');
+        }
+
+        $post->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => $path ?? $post->image,
+            'content' => $request->content
+        ]);
+
+        return redirect()->route('posts.show', ['post' => $post->id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        if (isset($post->image)) {
+            Storage::delete($post->image);
+        }
+        
+        $post->delete();
+
+        return redirect()->route('posts.index');
     }
 }

@@ -6,6 +6,17 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
+                    <div class="row justify-content-end">
+                        <a class="btn btn-sm btn-outline-light bg-dark"
+                            href="{{ route('posts.edit', ['post' => $post->id]) }}">O'zgartirish</a>
+                        <form action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="POST" class="mb-0"
+                                onsubmit="return confirm('O\'chirishni hohlaysizmi?')"
+                            >
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-outline-light bg-danger">O'chirish</button>
+                        </form>
+                    </div>
                     <div class="mb-5">
                         <div class="d-flex mb-2">
                             <a class="text-secondary text-uppercase font-weight-medium" href="">Admin</a>
@@ -22,7 +33,7 @@
 
                         <img class="img-fluid rounded w-100 mb-4" src="{{ asset('storage/' . $post->image) }}"
                             alt="Image">
-                        <p>{{ $post->description }}</p>
+                        <h4>{{ $post->description }}</h4>
                         <p>{{ $post->content }}</p>
                     </div>
 
