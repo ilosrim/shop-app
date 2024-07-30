@@ -12,10 +12,10 @@ class Post extends Model
     ## Bir vaqtda ikkalasidan birini foydalanish mumkin!
 
     ## To'ldirilishi mumkin bo'lgan maydonlar ro'yxati
-    // protected $fillable = ['title', 'description', 'image', 'content'];
+    protected $fillable = ['title', 'description', 'image', 'content', 'user_id'];
 
     ## To'ldirilishi taqiqlangan maydonlar ro'yxati
-    protected $guarded = ['id'];
+    // protected $guarded = ['id'];
 
     public function user() {
         return $this->belongsTo(User::class);

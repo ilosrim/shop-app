@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 // Route::controller(PageController::class)->group(function () {
@@ -17,4 +18,7 @@ Route::get('loyihalar', [PageController::class, 'project'])->name('project');
 Route::get('kontakt', [PageController::class, 'contact'])->name('contact');
 
 // PostController
-Route::resource('posts', PostController::class);
+Route::resources([
+    'posts' => PostController::class,
+    'comments' => CommentController::class,
+]);

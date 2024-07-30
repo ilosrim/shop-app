@@ -53,7 +53,8 @@ class PostController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'image' => $path ?? null,
-            'content' => $request->content
+            'content' => $request->content,
+            'user_id' => $request->user_id
         ]);
 
         return redirect()->route('posts.index');
@@ -95,7 +96,8 @@ class PostController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'image' => $path ?? $post->image,
-            'content' => $request->content
+            'content' => $request->content,
+            'user_id' => $request->user_id
         ]);
 
         return redirect()->route('posts.show', ['post' => $post->id]);

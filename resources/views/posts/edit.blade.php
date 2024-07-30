@@ -11,6 +11,14 @@
                     <form action="{{ route('posts.update', ['post' => $post->id]) }}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
+                        
+                        <div class="control-group mb-2">
+                            <input type="text" class="form-control p-4" name="user_id"
+                                placeholder="Sarlavha kiriting..." value="{{ $post->user_id }}" />
+                            @error('user_id')
+                                <p class="help-block text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
                         <div class="control-group mb-2">
                             <input type="text" class="form-control p-4" name="title"
                                 placeholder="Sarlavha kiriting..." value="{{ $post->title }}" />

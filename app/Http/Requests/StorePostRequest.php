@@ -41,7 +41,8 @@ class StorePostRequest extends FormRequest
             'title' => 'required|max:255',
             'description' => 'required',
             'content' => 'required',
-            'image' => 'nullable|image|max:2048'
+            'image' => 'nullable|image|max:2048',
+            'user_id' => 'required'
         ];
     }
 }
