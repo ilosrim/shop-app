@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
@@ -28,7 +29,7 @@ class PostController extends Controller
         // Post::where('id', 4)->update(['title' => 'updated title 4']);
 
         // $posts = Post::all();
-        return view("posts.index", [
+        return view("posts.index")->with([
             "posts" => Post::orderBy('id', 'desc')->paginate(6),
         ]);
     }
@@ -41,6 +42,7 @@ class PostController extends Controller
         return view("posts.create")->with([
             "users" => User::all(),
             "categories" => Category::all(),
+            "tags" => Tag::all(),
         ]);
     }
 
@@ -49,6 +51,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        // dd($request->tags);
         if ($request->hasFile("image")) {
             $path = $request->file("image")->store("post-images");
         }
@@ -61,6 +64,12 @@ class PostController extends Controller
             "user_id" => $request->user_id,
             "category_id" => $request->category_id,
         ]);
+
+        if (isset($request->tags)) {
+            foreach ($request->tags as $tag) {
+                $post->tags()->attach($tag);
+            }
+        }
 
         return redirect()->route("posts.index");
     }
@@ -76,6 +85,8 @@ class PostController extends Controller
                 ->get()
                 ->except($post->id)
                 ->take(5),
+            "categories" => Category::all(),
+            "tags" => Tag::all(),
         ]);
     }
 
@@ -84,7 +95,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view("posts.edit")->with(["post" => $post]);
+        return view("posts.edit")->with([
+            "post" => $post,
+            "categories" => Category::all(),
+            "tags" => Tag::all(),
+        ]);
     }
 
     /**
@@ -106,7 +121,14 @@ class PostController extends Controller
             "image" => $path ?? $post->image,
             "content" => $request->content,
             "user_id" => $request->user_id,
+            "category_id" => $request->category_id,
         ]);
+
+        if (isset($request->tags)) {
+            foreach ($request->tags as $tag) {
+                $post->tags()->attach($tag);
+            }
+        }
 
         return redirect()->route("posts.show", ["post" => $post->id]);
     }

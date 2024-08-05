@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 // PageController
-Route::get('/', [PageController::class, 'main']);
+Route::get('/', [PageController::class, 'main'])->name('main');
 Route::get('biz-haqimizda', [PageController::class, 'about'])->name('about');
 Route::get('hizmatlar', [PageController::class, 'service'])->name('service');
 Route::get('loyihalar', [PageController::class, 'project'])->name('project');

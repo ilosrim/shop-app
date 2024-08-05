@@ -1,6 +1,5 @@
 version: '3'
 services:
-
   #PHP
   app:
     build:
@@ -47,6 +46,8 @@ services:
     environment:
       MYSQL_DATABASE: shop_app
       MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: ilosrim
+      MYSQL_PASSWORD: 1234
       SERVICE_TAGS: dev
       SERVICE_NAME: mysql
     volumes:
@@ -54,6 +55,17 @@ services:
       - ./mysql/my.cnf:/etc/mysql/my.cnf
     networks:
       - app-network
+  pma:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: pma
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: "123456"
+    ports:
+      - "8000:80"
+    links:
+      - db:db
 
 #Networks
 networks:

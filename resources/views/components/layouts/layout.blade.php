@@ -78,14 +78,21 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="/" class="nav-item nav-link active">Bosh sahifa</a>
-                            <a href="{{ route('about') }}" class="nav-item nav-link">Biz haqimizda</a>
-                            <a href="{{ route('service') }}" class="nav-item nav-link">Hizmatlar</a>
-                            <a href="{{ route('project') }}" class="nav-item nav-link">Loyihalar</a>
-                            <a href="{{ route('posts.index') }}" class="nav-item nav-link">Blog</a>
-                            <a href="{{ route('contact') }}" class="nav-item nav-link">Kontakt</a>
+                            <a href="/" class="nav-item nav-link {{ Route::is('main') ? 'active' : '' }}">Bosh
+                                sahifa</a>
+                            <a href="{{ route('about') }}"
+                                class="nav-item nav-link {{ Route::is('about') ? 'active' : '' }}">Biz haqimizda</a>
+                            <a href="{{ route('service') }}"
+                                class="nav-item nav-link {{ Route::is('service') ? 'active' : '' }}">Hizmatlar</a>
+                            <a href="{{ route('project') }}"
+                                class="nav-item nav-link {{ Route::is('project') ? 'active' : '' }}">Loyihalar</a>
+                            <a href="{{ url('posts') }}"
+                                class="nav-item nav-link {{ Request::is('posts') ? 'active' : '' }}">Blog</a>
+                            <a href="{{ route('contact') }}"
+                                class="nav-item nav-link {{ Route::is('contact') ? 'active' : '' }}">Kontakt</a>
                         </div>
-                        <a href="{{ route('posts.create') }}" class="btn btn-primary mr-3 d-none d-lg-block">Post yaratish</a>
+                        <a href="{{ route('posts.create') }}" class="btn btn-primary mr-3 d-none d-lg-block">Post
+                            yaratish</a>
                     </div>
                 </nav>
             </div>

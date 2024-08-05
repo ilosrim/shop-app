@@ -18,15 +18,17 @@
                     </div>
                     <div class="mb-5">
                         <div class="d-flex mb-2">
-                            <a class="text-secondary text-uppercase font-weight-medium" href="">Admin</a>
-                            <span class="text-primary px-2">|</span>
-                            <a class="text-secondary text-uppercase font-weight-medium" href="">Cleaning</a>
-                            <span class="text-primary px-2">|</span>
-                            <a class="text-secondary text-uppercase font-weight-medium"
-                                href="">{{ date('M d, Y', strtotime($post->created_at)) }}</a>
+                            @foreach ($post->tags as $tag)
+                                <span
+                                    class="text-secondary text-uppercase font-weight-medium">{{ $tag->name }}</span>
+                                <span class="text-primary px-2">|</span>
+                            @endforeach
+                            <span
+                                class="text-secondary text-uppercase font-weight-medium">{{ date('M d, Y', strtotime($post->created_at)) }}</span>
                         </div>
                         <div class="d-flex mb-2">
-                            <span class="bg-secondary rounded text-white p-2 text-uppercase font-weight-medium">{{$post->category->name}}</span>
+                            <span
+                                class="bg-secondary rounded text-white p-2 text-uppercase font-weight-medium">{{ $post->category->name }}</span>
                         </div>
                         <h1 class="section-title mb-3">{{ $post->title }}</h1>
                     </div>
@@ -47,7 +49,8 @@
                                 <img src="/img/user.jpg" alt="Image" class="img-fluid rounded-circle mr-3 mt-1"
                                     style="width: 45px;">
                                 <div class="media-body">
-                                    <h6>{{ $comment->user->name }} <small><i>{{ $comment->created_at }}</i></small></h6>
+                                    <h6>{{ $comment->user->name }} <small><i>{{ $comment->created_at }}</i></small>
+                                    </h6>
                                     <p>{{ $comment->content }}</p>
                                     {{-- <button class="btn btn-sm btn-light">Reply</button> --}}
                                 </div>
@@ -94,41 +97,25 @@
                     <div class="mb-5">
                         <h3 class="mb-4 section-title">Categories</h3>
                         <ul class="list-inline m-0">
-                            <li class="mb-1 py-2 px-3 bg-light d-flex justify-content-between align-items-center">
-                                <a class="text-dark" href="#"><i
-                                        class="fa fa-angle-right text-secondary mr-2"></i>Web Design</a>
-                                <span class="badge badge-primary badge-pill">150</span>
-                            </li>
-                            <li class="mb-1 py-2 px-3 bg-light d-flex justify-content-between align-items-center">
-                                <a class="text-dark" href="#"><i
-                                        class="fa fa-angle-right text-secondary mr-2"></i>Web Development</a>
-                                <span class="badge badge-primary badge-pill">131</span>
-                            </li>
-                            <li class="mb-1 py-2 px-3 bg-light d-flex justify-content-between align-items-center">
-                                <a class="text-dark" href="#"><i
-                                        class="fa fa-angle-right text-secondary mr-2"></i>Online Marketing</a>
-                                <span class="badge badge-primary badge-pill">78</span>
-                            </li>
-                            <li class="mb-1 py-2 px-3 bg-light d-flex justify-content-between align-items-center">
-                                <a class="text-dark" href="#"><i
-                                        class="fa fa-angle-right text-secondary mr-2"></i>Keyword Research</a>
-                                <span class="badge badge-primary badge-pill">56</span>
-                            </li>
-                            <li class="py-2 px-3 bg-light d-flex justify-content-between align-items-center">
-                                <a class="text-dark" href="#"><i
-                                        class="fa fa-angle-right text-secondary mr-2"></i>Email Marketing</a>
-                                <span class="badge badge-primary badge-pill">98</span>
-                            </li>
+                            @foreach ($categories as $category)
+                                <li class="mb-1 py-2 px-3 bg-light d-flex justify-content-between align-items-center">
+                                    <a class="text-dark" href="#"><i
+                                            class="fa fa-angle-right text-secondary mr-2"></i>{{ $category->name }}</a>
+                                    <span
+                                        class="badge badge-primary badge-pill">{{ $category->posts()->count() }}</span>
+                                </li>
+                            @endforeach
+
                         </ul>
                     </div>
-                    <div class="mb-5">
+                    {{-- <div class="mb-5">
                         <img src="/img/blog-1.jpg" alt="" class="img-fluid rounded">
-                    </div>
+                    </div> --}}
                     <div class="mb-5">
                         <h3 class="mb-4 section-title">Recent Post</h3>
                         @foreach ($recent_posts as $r_post)
                             <div class="d-flex align-items-center border-bottom mb-3 pb-3">
-                                <img class="img-fluid rounded" src="/img/blog-1.jpg"
+                                <img class="img-fluid rounded" src="{{ asset('storage/' . $r_post->image) }}"
                                     style="width: 80px; height: 80px; object-fit: cover;" alt="">
                                 <div class="d-flex flex-column pl-3">
                                     <a class="text-dark mb-2"
@@ -148,30 +135,27 @@
                         @endforeach
 
                     </div>
-                    <div class="mb-5">
+                    {{-- <div class="mb-5">
                         <img src="/img/blog-2.jpg" alt="" class="img-fluid rounded">
-                    </div>
+                    </div> --}}
                     <div class="mb-5">
                         <h3 class="mb-4 section-title">Tag Cloud</h3>
                         <div class="d-flex flex-wrap m-n1">
-                            <a href="" class="btn btn-outline-secondary m-1">Design</a>
-                            <a href="" class="btn btn-outline-secondary m-1">Development</a>
-                            <a href="" class="btn btn-outline-secondary m-1">Marketing</a>
-                            <a href="" class="btn btn-outline-secondary m-1">SEO</a>
-                            <a href="" class="btn btn-outline-secondary m-1">Writing</a>
-                            <a href="" class="btn btn-outline-secondary m-1">Consulting</a>
+                            @foreach ($tags as $tag)
+                                <a href="" class="btn btn-outline-secondary m-1">{{ $tag->name }}</a>
+                            @endforeach
                         </div>
                     </div>
-                    <div class="mb-5">
+                    {{-- <div class="mb-5">
                         <img src="/img/blog-3.jpg" alt="" class="img-fluid rounded">
-                    </div>
-                    <div>
+                    </div> --}}
+                    {{-- <div>
                         <h3 class="mb-4 section-title">Plain Text</h3>
                         Aliquyam sed lorem stet diam dolor sed ut sit. Ut sanctus erat ea est aliquyam dolor et. Et no
                         consetetur eos labore ea erat voluptua et. Et aliquyam dolore sed erat. Magna sanctus sed eos
                         tempor
                         rebum dolor, tempor takimata clita sit et elitr ut eirmod.
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>

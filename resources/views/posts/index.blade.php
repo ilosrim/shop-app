@@ -27,12 +27,17 @@
                             </div>
                         </div>
                         <div class="d-flex mb-2">
-                            <a class="text-secondary text-uppercase font-weight-medium" href="">Admin</a>
-                            <span class="text-primary px-2">|</span>
-                            <a class="text-secondary text-uppercase font-weight-medium" href="">Cleaning</a>
+                            @foreach ($post->tags as $index => $tag)
+                                <span class="text-secondary text-uppercase font-weight-medium"
+                                    >{{ $tag->name }}</span>
+                                @if ($index < count($post->tags) - 1)
+                                    <span class="text-primary px-2">|</span>
+                                @endif
+                            @endforeach
                         </div>
                         <div class="d-flex mb-2">
-                            <span class="bg-secondary rounded text-white p-2 text-uppercase font-weight-medium">{{$post->category->name}}</span>
+                            <span
+                                class="bg-secondary rounded text-white p-2 text-uppercase font-weight-medium">{{ $post->category->name }}</span>
                         </div>
                         <h5 class="font-weight-medium mb-2">{{ $post->title }}</h5>
                         <p class="mb-4">{{ substr($post->description, 0, 50) }}</p>

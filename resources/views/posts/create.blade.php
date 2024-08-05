@@ -10,19 +10,33 @@
                     <!-- <div id="success"></div> -->
                     <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+
+                        {{-- User ID --}}
                         <div class="control-group mb-2">
                             <label for="user">User</label>
                             <select id="user" name="user_id" class="form-control px-4">
                                 @foreach ($users as $user)
-                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
                                 @endforeach
                             </select>
                         </div>
+
+                        {{-- Category ID --}}
                         <div class="control-group mb-2">
                             <label for="category">Kategoriya</label>
                             <select id="category" name="category_id" class="form-control px-4">
                                 @foreach ($categories as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Tags --}}
+                        <div class="control-group mb-2">
+                            <label for="tags">Teglar</label>
+                            <select id="tags" name="tags[]" class="form-control px-4 " multiple>
+                                @foreach ($tags as $tag)
+                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -47,7 +61,8 @@
 
                         <div class="control-group mb-2">
                             <label for="description">Qisqacha</label>
-                            <textarea id="description" class="form-control p-4" rows="3" name="description" placeholder="Qisqacha mazmunini yozing...">{{ old('description') }}</textarea>
+                            <textarea id="description" class="form-control p-4" rows="3" name="description"
+                                placeholder="Qisqacha mazmunini yozing...">{{ old('description') }}</textarea>
                             @error('description')
                                 <p class="help-block text-danger">{{ $message }}</p>
                             @enderror
