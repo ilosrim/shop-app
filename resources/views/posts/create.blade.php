@@ -7,18 +7,29 @@
             <div class="col-lg-12 mb-5 mb-lg-0">
                 <div class="contact-form">
 
-                    <div id="success"></div>
+                    <!-- <div id="success"></div> -->
                     <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="control-group mb-2">
-                            <input type="number" class="form-control p-4" name="user_id"
-                                placeholder="User id kiriting..." value="{{ old('user_id') }}" />
-                            @error('user_id')
-                                <p class="help-block text-danger">{{ $message }}</p>
-                            @enderror
+                            <label for="user">User</label>
+                            <select id="user" name="user_id" class="form-control px-4">
+                                @foreach ($users as $user)
+                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="control-group mb-2">
-                            <input type="text" class="form-control p-4" name="title"
+                            <label for="category">Kategoriya</label>
+                            <select id="category" name="category_id" class="form-control px-4">
+                                @foreach ($categories as $category)
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="control-group mb-2">
+                            <label for="title">Sarlavha</label>
+                            <input id="title" type="text" class="form-control p-4" name="title"
                                 placeholder="Sarlavha kiriting..." value="{{ old('title') }}" />
                             @error('title')
                                 <p class="help-block text-danger">{{ $message }}</p>
@@ -26,7 +37,8 @@
                         </div>
 
                         <div class="control-group mb-2">
-                            <input type="file" class="form-control p-4" name="image"
+                            <label for="image">Rasm</label>
+                            <input id="image" type="file" class="form-control px-4" name="image"
                                 placeholder="Rasm qo'shing.." value="{{ old('title') }}" />
                             @error('image')
                                 <p class="help-block text-danger">{{ $message }}</p>
@@ -34,14 +46,16 @@
                         </div>
 
                         <div class="control-group mb-2">
-                            <textarea class="form-control p-4" rows="3" name="description" placeholder="Qisqacha mazmunini yozing...">{{ old('description') }}</textarea>
+                            <label for="description">Qisqacha</label>
+                            <textarea id="description" class="form-control p-4" rows="3" name="description" placeholder="Qisqacha mazmunini yozing...">{{ old('description') }}</textarea>
                             @error('description')
                                 <p class="help-block text-danger">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="control-group mb-2">
-                            <textarea class="form-control p-4" rows="6" name="content" placeholder="Post matnini kiriting...">{{ old('content') }}</textarea>
+                            <label for="content">Kontent</label>
+                            <textarea id="content" class="form-control p-4" rows="6" name="content" placeholder="Post matnini kiriting...">{{ old('content') }}</textarea>
                             @error('content')
                                 <p class="help-block text-danger">{{ $message }}</p>
                             @enderror

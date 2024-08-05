@@ -25,6 +25,9 @@
                             <a class="text-secondary text-uppercase font-weight-medium"
                                 href="">{{ date('M d, Y', strtotime($post->created_at)) }}</a>
                         </div>
+                        <div class="d-flex mb-2">
+                            <span class="bg-secondary rounded text-white p-2 text-uppercase font-weight-medium">{{$post->category->name}}</span>
+                        </div>
                         <h1 class="section-title mb-3">{{ $post->title }}</h1>
                     </div>
 

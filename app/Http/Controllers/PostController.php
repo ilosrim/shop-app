@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -14,7 +16,6 @@ class PostController extends Controller
      */
     public function index(): View
     {
-
         // $posts = Post::where('id', 1)->first();
         // dd($posts->title);
 
@@ -26,9 +27,9 @@ class PostController extends Controller
         # Mass Updates
         // Post::where('id', 4)->update(['title' => 'updated title 4']);
 
-        $posts = Post::all();
-        return view('posts.index', [
-            'posts' =>  Post::paginate(6)
+        // $posts = Post::all();
+        return view("posts.index", [
+            "posts" => Post::orderBy('id', 'desc')->paginate(6),
         ]);
     }
 
@@ -37,7 +38,10 @@ class PostController extends Controller
      */
     public function create(): View
     {
-        return view('posts.create');
+        return view("posts.create")->with([
+            "users" => User::all(),
+            "categories" => Category::all(),
+        ]);
     }
 
     /**
@@ -45,19 +49,20 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('post-images');
+        if ($request->hasFile("image")) {
+            $path = $request->file("image")->store("post-images");
         }
 
         $post = Post::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'image' => $path ?? null,
-            'content' => $request->content,
-            'user_id' => $request->user_id
+            "title" => $request->title,
+            "description" => $request->description,
+            "image" => $path ?? null,
+            "content" => $request->content,
+            "user_id" => $request->user_id,
+            "category_id" => $request->category_id,
         ]);
 
-        return redirect()->route('posts.index');
+        return redirect()->route("posts.index");
     }
 
     /**
@@ -65,9 +70,12 @@ class PostController extends Controller
      */
     public function show(Post $post): View
     {
-        return view('posts.show')->with([
-            'post' => $post,
-            'recent_posts' => Post::latest()->get()->except($post->id)->take(5)
+        return view("posts.show")->with([
+            "post" => $post,
+            "recent_posts" => Post::latest()
+                ->get()
+                ->except($post->id)
+                ->take(5),
         ]);
     }
 
@@ -76,7 +84,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('posts.edit')->with(['post' => $post]);
+        return view("posts.edit")->with(["post" => $post]);
     }
 
     /**
@@ -84,23 +92,23 @@ class PostController extends Controller
      */
     public function update(StorePostRequest $request, Post $post)
     {
-        if ($request->hasFile('image')) {
+        if ($request->hasFile("image")) {
             if (isset($post->image)) {
                 Storage::delete($post->image);
             }
 
-            $path = $request->file('image')->store('post-images');
+            $path = $request->file("image")->store("post-images");
         }
 
         $post->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'image' => $path ?? $post->image,
-            'content' => $request->content,
-            'user_id' => $request->user_id
+            "title" => $request->title,
+            "description" => $request->description,
+            "image" => $path ?? $post->image,
+            "content" => $request->content,
+            "user_id" => $request->user_id,
         ]);
 
-        return redirect()->route('posts.show', ['post' => $post->id]);
+        return redirect()->route("posts.show", ["post" => $post->id]);
     }
 
     /**
@@ -111,9 +119,9 @@ class PostController extends Controller
         if (isset($post->image)) {
             Storage::delete($post->image);
         }
-        
+
         $post->delete();
 
-        return redirect()->route('posts.index');
+        return redirect()->route("posts.index");
     }
 }
