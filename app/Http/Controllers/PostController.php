@@ -6,63 +6,51 @@ use App\Http\Requests\StorePostRequest;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\Tag;
-use App\Models\User;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
-class PostController extends Controller
+class PostController extends Controller implements HasMiddleware
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public static function middleware()
+    {
+        return [
+            new Middleware('auth', except: ['index', 'show']),
+        ];
+    }
+
     public function index(): View
     {
-        // $posts = Post::where('id', 1)->first();
-        // dd($posts->title);
+        $posts = Post::latest()->paginate(6);
 
-        # Updates
-        // $post = Post::find(3);
-        // $post->title = 'chaned title 3';
-        // $post->save();
-
-        # Mass Updates
-        // Post::where('id', 4)->update(['title' => 'updated title 4']);
-
-        // $posts = Post::all();
         return view("posts.index")->with([
-            "posts" => Post::orderBy('id', 'desc')->paginate(6),
+            "posts" => $posts,
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(): View
     {
         return view("posts.create")->with([
-            "users" => User::all(),
             "categories" => Category::all(),
             "tags" => Tag::all(),
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StorePostRequest $request)
     {
-        // dd($request->tags);
         if ($request->hasFile("image")) {
             $path = $request->file("image")->store("post-images");
         }
 
         $post = Post::create([
+            "user_id" => Auth::user()->id,
+            "category_id" => $request->category_id,
             "title" => $request->title,
             "description" => $request->description,
             "image" => $path ?? null,
             "content" => $request->content,
-            "user_id" => $request->user_id,
-            "category_id" => $request->category_id,
         ]);
 
         if (isset($request->tags)) {
@@ -74,9 +62,6 @@ class PostController extends Controller
         return redirect()->route("posts.index");
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Post $post): View
     {
         return view("posts.show")->with([
@@ -90,9 +75,6 @@ class PostController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Post $post)
     {
         return view("posts.edit")->with([
@@ -102,9 +84,6 @@ class PostController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(StorePostRequest $request, Post $post)
     {
         if ($request->hasFile("image")) {
@@ -116,12 +95,12 @@ class PostController extends Controller
         }
 
         $post->update([
+            "user_id" => Auth::user()->id,
+            "category_id" => $request->category_id,
             "title" => $request->title,
             "description" => $request->description,
             "image" => $path ?? $post->image,
             "content" => $request->content,
-            "user_id" => $request->user_id,
-            "category_id" => $request->category_id,
         ]);
 
         if (isset($request->tags)) {
@@ -133,9 +112,6 @@ class PostController extends Controller
         return redirect()->route("posts.show", ["post" => $post->id]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Post $post)
     {
         if (isset($post->image)) {

@@ -1,0 +1,24 @@
+// Authenticate
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login', 'login')->name('login');
+    Route::post('/authenticate', 'authenticate')->name('authenticate');
+});
+
+// Route::get('login', [AuthController::class], 'login')->name('login');
+// Route::post('authenticate', [AuthController::class], 'authenticate')->name('authenticate');
+
+// PageController
+Route::controller(PageController::class)->group(function () {
+    Route::get('/', 'main')->name('main');
+    Route::get('biz-haqimizda', 'about')->name('about');
+    Route::get('hizmatlar', 'service')->name('service');
+    Route::get('loyihalar', 'project')->name('project');
+    Route::get('kontakt', 'contact')->name('contact');
+});
+
+// PageController
+Route::get('/', [PageController::class, 'main'])->name('main');
+Route::get('biz-haqimizda', [PageController::class, 'about'])->name('about');
+Route::get('hizmatlar', [PageController::class, 'service'])->name('service');
+Route::get('loyihalar', [PageController::class, 'project'])->name('project');
+Route::get('kontakt', [PageController::class, 'contact'])->name('contact');

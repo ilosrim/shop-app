@@ -6,16 +6,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    <div class="row justify-content-end">
-                        <a class="btn btn-sm btn-outline-light bg-dark"
-                            href="{{ route('posts.edit', ['post' => $post->id]) }}">O'zgartirish</a>
-                        <form action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="POST" class="mb-0"
-                            onsubmit="return confirm('O\'chirishni hohlaysizmi?')">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-light bg-danger">O'chirish</button>
-                        </form>
-                    </div>
+                    @auth
+                        <div class="row justify-content-end">
+                            <a class="btn btn-sm btn-outline-light bg-dark"
+                                href="{{ route('posts.edit', ['post' => $post->id]) }}">O'zgartirish</a>
+                            <form action="{{ route('posts.destroy', ['post' => $post->id]) }}" method="POST" class="mb-0"
+                                onsubmit="return confirm('O\'chirishni hohlaysizmi?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-light bg-danger">O'chirish</button>
+                            </form>
+                        </div>
+                    @endauth
                     <div class="mb-5">
                         <div class="d-flex mb-2">
                             @foreach ($post->tags as $tag)
@@ -61,17 +63,22 @@
 
                     <div class="bg-light rounded p-5">
                         <h3 class="mb-4 section-title">Komment qoldirish</h3>
-                        <form action="{{ route('comments.store') }}" method="POST">
-                            @csrf
-                            <div class="form-group">
-                                <label for="message">Komment</label>
-                                <textarea name="comment" cols="30" rows="5" class="form-control"></textarea>
-                            </div>
-                            <input type="hidden" name="post_id" value="{{ $post->id }}">
-                            <div class="form-group mb-0">
-                                <input type="submit" value="Yuborish" class="btn btn-primary">
-                            </div>
-                        </form>
+                        @auth
+                            <form action="{{ route('comments.store') }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="message">Komment</label>
+                                    <textarea name="comment" cols="30" rows="5" class="form-control"></textarea>
+                                </div>
+                                <input type="hidden" name="post_id" value="{{ $post->id }}">
+                                <div class="form-group mb-0">
+                                    <input type="submit" value="Yuborish" class="btn btn-primary">
+                                </div>
+                            </form>
+                        @else
+                            <p>Komment qoldirish uchun <a href="{{ route('login') }}">kiring</a> yoki <a
+                                    href="{{ route('register') }}">ro'yxatdan o'ting</a></p>
+                        @endauth
                     </div>
                     {{-- comment section end --}}
                 </div>
@@ -79,7 +86,7 @@
                 <div class="col-lg-4 mt-5 mt-lg-0">
                     <div class="d-flex flex-column text-center bg-secondary rounded mb-5 py-5 px-4">
                         <img src="/img/user.jpg" class="img-fluid rounded-circle mx-auto mb-3" style="width: 100px;">
-                        <h3 class="text-white mb-3">John Doe</h3>
+                        <h3 class="text-white mb-3">{{ $post->user->name }}</h3>
                         <p class="text-white m-0">Conset elitr erat vero dolor ipsum et diam, eos dolor lorem ipsum,
                             ipsum
                             ipsum sit no ut est. Guber ea ipsum erat kasd amet est elitr ea sit.</p>

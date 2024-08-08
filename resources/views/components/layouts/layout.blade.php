@@ -31,13 +31,13 @@
     <!-- Header Start -->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-3 bg-secondary d-none d-lg-block">
+            <div class="col-lg-2 bg-secondary d-none d-lg-block">
                 <a href="/"
                     class="navbar-brand w-100 h-100 m-0 p-0 d-flex align-items-center justify-content-center">
                     <h1 class="m-0 display-3 text-primary">Klean</h1>
                 </a>
             </div>
-            <div class="col-lg-9">
+            <div class="col-lg-10">
                 <div class="row bg-dark d-none d-lg-flex">
                     <div class="col-lg-7 text-left text-white">
                         <div class="h-100 d-inline-flex align-items-center border-right border-primary py-2 px-3">
@@ -91,8 +91,23 @@
                             <a href="{{ route('contact') }}"
                                 class="nav-item nav-link {{ Route::is('contact') ? 'active' : '' }}">Kontakt</a>
                         </div>
-                        <a href="{{ route('posts.create') }}" class="btn btn-primary mr-3 d-none d-lg-block">Post
-                            yaratish</a>
+                        @auth
+                            <div class="row flex-column">
+                                <span class="text-right mr-4">{{ auth()->user()->name }}</span>
+                                <div class="d-flex">
+                                    <a href="{{ route('posts.create') }}"
+                                        class="btn btn-primary mr-3 d-none d-lg-block">Post yaratish</a>
+                                    <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                        @csrf
+                                        <button type="submit" class="btn btn-dark mr-3 d-none d-lg-block">Chiqish</button>
+                                    </form>
+                                </div>
+                            </div>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-primary mr-3 d-none d-lg-block">Kirish</a>
+                            <a href="{{ route('register') }}" class="btn btn-primary mr-3 d-none d-lg-block">Ro'yxatdan
+                                o'tish</a>
+                        @endauth
                     </div>
                 </nav>
             </div>

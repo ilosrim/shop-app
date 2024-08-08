@@ -7,21 +7,9 @@
             <div class="col-lg-12 mb-5 mb-lg-0">
                 <div class="contact-form">
 
-                    <!-- <div id="success"></div> -->
                     <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
-                        {{-- User ID --}}
-                        <div class="control-group mb-2">
-                            <label for="user">User</label>
-                            <select id="user" name="user_id" class="form-control px-4">
-                                @foreach ($users as $user)
-                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        {{-- Category ID --}}
                         <div class="control-group mb-2">
                             <label for="category">Kategoriya</label>
                             <select id="category" name="category_id" class="form-control px-4">
@@ -31,7 +19,6 @@
                             </select>
                         </div>
 
-                        {{-- Tags --}}
                         <div class="control-group mb-2">
                             <label for="tags">Teglar</label>
                             <select id="tags" name="tags[]" class="form-control px-4 " multiple>
