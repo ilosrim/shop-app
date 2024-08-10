@@ -9,6 +9,7 @@ use App\Models\Tag;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -45,7 +46,7 @@ class PostController extends Controller implements HasMiddleware
         }
 
         $post = Post::create([
-            "user_id" => Auth::user()->id,
+            "user_id" => Auth::id(),
             "category_id" => $request->category_id,
             "title" => $request->title,
             "description" => $request->description,
@@ -77,6 +78,8 @@ class PostController extends Controller implements HasMiddleware
 
     public function edit(Post $post)
     {
+        Gate::authorize('update', $post);
+
         return view("posts.edit")->with([
             "post" => $post,
             "categories" => Category::all(),
@@ -86,6 +89,8 @@ class PostController extends Controller implements HasMiddleware
 
     public function update(StorePostRequest $request, Post $post)
     {
+        Gate::authorize('update', $post);
+
         if ($request->hasFile("image")) {
             if (isset($post->image)) {
                 Storage::delete($post->image);
@@ -114,6 +119,8 @@ class PostController extends Controller implements HasMiddleware
 
     public function destroy(Post $post)
     {
+        Gate::authorize('delete', $post);
+
         if (isset($post->image)) {
             Storage::delete($post->image);
         }
