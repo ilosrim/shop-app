@@ -9,6 +9,16 @@
                 <i class="fas fa-user"></i>
             </div>
 
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <!-- Login Form -->
             <form action="{{ route('authenticate') }}" method="POST">
                 @csrf
