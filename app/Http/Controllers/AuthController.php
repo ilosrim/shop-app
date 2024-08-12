@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Illuminate\View\View;
 
 class AuthController extends Controller
@@ -31,7 +32,8 @@ class AuthController extends Controller
         $user = User::create($validated);
         Auth::login($user);
 
-        return redirect("/")->withSuccess('You have signed-in');
+        // return redirect($request->pr_url)->withSuccess('You have signed-in');
+        return redirect()->intended($request->pr_url);
     }
 
     // login
@@ -50,7 +52,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/');
+            return redirect()->intended($request->pr_url);
         }
 
         return back()->withErrors([

@@ -26,6 +26,7 @@
                     placeholder="Pochta manzili, m. palonchi@mail.com" required>
                 <input type="password" id="password" class="fadeIn third" name="password"
                     placeholder="Parol m. 12345678" required>
+                <input type="hidden" name="pr_url" value="{{ URL::previous() }}">
                 <input type="submit" class="fadeIn fourth" value="Kirish">
             </form>
 

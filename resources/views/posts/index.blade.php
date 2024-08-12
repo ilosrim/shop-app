@@ -19,8 +19,11 @@
                 @foreach ($posts as $post)
                     <div class="col-lg-4 col-md-6 mb-5">
                         <div class="position-relative mb-4">
-                            <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $post->image) }}"
-                                alt="{{ $post->title }}">
+                            @if(asset('storage/' . $post->image) != null)
+                                <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}">
+                            @else
+                                <img class="img-fluid rounded w-100" src="{{ $post->image }}" alt="{{ $post->title }}">
+                            @endif
                             <div class="blog-date">
                                 <h4 class="font-weight-bold mb-n1">{{ date('d', strtotime($post->created_at)) }}</h4>
                                 <small class="text-white text-uppercase">Jan</small>

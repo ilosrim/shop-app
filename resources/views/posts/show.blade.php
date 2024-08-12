@@ -38,9 +38,12 @@
                     </div>
 
                     <div class="mb-5">
-
-                        <img class="img-fluid rounded w-100 mb-4" src="{{ asset('storage/' . $post->image) }}"
-                            alt="Image">
+                        @if (asset('storage/' . $post->image))
+                            <img class="img-fluid rounded w-100 mb-4" src="{{ asset('storage/' . $post->image) }}" alt="Image">
+                        @else
+                            <img class="img-fluid rounded w-100 mb-4" src="/img/blog-1.jpg" alt="Image">
+                        @endif
+                        
                         <h4>{{ $post->description }}</h4>
                         <p>{{ $post->content }}</p>
                     </div>
@@ -78,8 +81,12 @@
                                 </div>
                             </form>
                         @else
-                            <p>Komment qoldirish uchun <a href="{{ route('login') }}">kiring</a> yoki <a
-                                    href="{{ route('register') }}">ro'yxatdan o'ting</a></p>
+                            <p>
+                                Komment qoldirish uchun 
+                                <a href="{{ route('login') }}">kiring</a> 
+                                yoki 
+                                <a href="{{ route('register') }}">ro'yxatdan o'ting</a>
+                            </p>
                         @endauth
                     </div>
                     {{-- comment section end --}}
