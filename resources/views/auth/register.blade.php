@@ -30,6 +30,7 @@
                     placeholder="Parol m. 12345678" required>
                 <input type="password" id="password" class="fadeIn third" name="password_confirmation"
                     placeholder="Parolni tasdiqlash" required>
+                <input type="hidden" name="pr_url" value="{{ URL::previous() }}">
                 <input type="submit" class="fadeIn fourth" value="Ro'yxatdan o'tish">
             </form>
 

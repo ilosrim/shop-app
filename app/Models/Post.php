@@ -9,8 +9,6 @@ class Post extends Model
 {
     use HasFactory;
 
-    ## Bir vaqtda ikkalasidan birini foydalanish mumkin!
-
     ## To'ldirilishi mumkin bo'lgan maydonlar ro'yxati
     protected $fillable = [
         "title",

@@ -24,7 +24,7 @@ class PostController extends Controller implements HasMiddleware
 
     public function index(): View
     {
-        $posts = Post::latest()->paginate(6);
+        $posts = Post::orderBy('id', 'desc')->paginate(6);
 
         return view("posts.index")->with([
             "posts" => $posts,
@@ -67,7 +67,7 @@ class PostController extends Controller implements HasMiddleware
     {
         return view("posts.show")->with([
             "post" => $post,
-            "recent_posts" => Post::latest()
+            "recent_posts" => Post::orderBy('id', 'desc')
                 ->get()
                 ->except($post->id)
                 ->take(5),
