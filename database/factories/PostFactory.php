@@ -22,7 +22,7 @@ class PostFactory extends Factory
             "title" => fake()->sentence(3),
             "description" => fake()->sentence(20),
             "content" => implode(" ", fake()->sentences(100)),
-            "image" => "/img/blog-1.jpg"
+            // "image" => "/img/blog-1.jpg"
         ];
     }
 }
