@@ -19,11 +19,10 @@
                 @foreach ($posts as $post)
                     <div class="col-lg-4 col-md-6 mb-5">
                         <div class="position-relative mb-4">
-                            @if (asset('storage/' . $post->image) == "http://127.0.0.1:8000/storage")
-                                <img class="img-fluid rounded w-100" src="/img/blog-1.jpg" alt="{{ $post->title }}">
-                            @else
-                                <img class="img-fluid rounded w-100" src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}">
-                            @endif
+                            <img class="img-fluid rounded w-100"
+                                src="{{ $post->image ? asset('storage/' . $post->image) : '/img/blog-1.jpg' }}"
+                                alt="{{ $post->title }}"
+                            >
                             <div class="blog-date">
                                 <h4 class="font-weight-bold mb-n1">{{ date('d', strtotime($post->created_at)) }}</h4>
                                 <small class="text-white text-uppercase">{{ date('M', strtotime($post->created_at)) }}</small>

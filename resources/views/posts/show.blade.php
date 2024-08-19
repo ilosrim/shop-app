@@ -38,19 +38,14 @@
                     </div>
 
                     <div class="mb-5">
-                        @if (asset('storage/' . $post->image))
-                            <img class="img-fluid rounded w-100 mb-4" src="{{ asset('storage/' . $post->image) }}" alt="Image">
-                        @else
-                            <img class="img-fluid rounded w-100 mb-4" src="/img/blog-1.jpg" alt="Image">
-                        @endif
-                        
+                        <img class="img-fluid rounded w-100 mb-4" src="{{ $post->image ? asset('storage/' . $post->image) : '/img/blog-1.jpg' }}" alt="{{ $post->title }}">
                         <h4>{{ $post->description }}</h4>
                         <p>{{ $post->content }}</p>
                     </div>
 
                     {{-- comment section start --}}
                     <div class="mb-5">
-                        <h3 class="mb-4 section-title">{{ $post->comments()->count() }} Comments</h3>
+                        <h3 class="mb-4 section-title">{{ $post->comments()->count() }} Kommentlar</h3>
                         @foreach ($post->comments as $comment)
                             <div class="media mb-4">
                                 <img src="/img/user.jpg" alt="Image" class="img-fluid rounded-circle mr-3 mt-1"
@@ -59,7 +54,6 @@
                                     <h6>{{ $comment->user->name }} <small><i>{{ $comment->created_at }}</i></small>
                                     </h6>
                                     <p>{{ $comment->content }}</p>
-                                    {{-- <button class="btn btn-sm btn-light">Reply</button> --}}
                                 </div>
                             </div>
                         @endforeach
@@ -82,9 +76,9 @@
                             </form>
                         @else
                             <p>
-                                Komment qoldirish uchun 
-                                <a href="{{ route('login') }}">kiring</a> 
-                                yoki 
+                                Komment qoldirish uchun
+                                <a href="{{ route('login') }}">kiring</a>
+                                yoki
                                 <a href="{{ route('register') }}">ro'yxatdan o'ting</a>
                             </p>
                         @endauth
@@ -131,7 +125,8 @@
                         <h3 class="mb-4 section-title">Recent Post</h3>
                         @foreach ($recent_posts as $r_post)
                             <div class="d-flex align-items-center border-bottom mb-3 pb-3">
-                                <img class="img-fluid rounded" src="{{ asset('storage/' . $r_post->image) }}"
+                                <img class="img-fluid rounded"
+                                    src="{{ $r_post->image ? asset('storage/' . $r_post->image) : '/img/blog-1.jpg' }}"
                                     style="width: 80px; height: 80px; object-fit: cover;" alt="">
                                 <div class="d-flex flex-column pl-3">
                                     <a class="text-dark mb-2"
