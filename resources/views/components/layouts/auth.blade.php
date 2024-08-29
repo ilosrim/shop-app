@@ -25,6 +25,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="/css/auth.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
 </head>
 
 <body>
@@ -45,8 +46,8 @@
     <script src="/lib/lightbox/js/lightbox.min.js"></script>
 
     <!-- Contact Javascript File -->
-    <script src="/mail/jqBootstrapValidation.min.js"></script>
-    <script src="/mail/contact.js"></script>
+    {{-- <script src="/mail/jqBootstrapValidation.min.js"></script>
+    <script src="/mail/contact.js"></script> --}}
 
     <!-- Template Javascript -->
     <script src="/js/main.js"></script>

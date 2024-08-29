@@ -21,17 +21,17 @@
                         <div class="position-relative mb-4">
                             <img class="img-fluid rounded w-100"
                                 src="{{ $post->image ? asset('storage/' . $post->image) : '/img/blog-1.jpg' }}"
-                                alt="{{ $post->title }}"
-                            >
+                                alt="{{ $post->title }}">
                             <div class="blog-date">
                                 <h4 class="font-weight-bold mb-n1">{{ date('d', strtotime($post->created_at)) }}</h4>
-                                <small class="text-white text-uppercase">{{ date('M', strtotime($post->created_at)) }}</small>
+                                <small
+                                    class="text-white text-uppercase">{{ date('M', strtotime($post->created_at)) }}</small>
                             </div>
                         </div>
                         <div class="d-flex mb-2">
                             @foreach ($post->tags as $index => $tag)
-                                <span class="text-secondary text-uppercase font-weight-medium"
-                                    >{{ $tag->name }}</span>
+                                <span
+                                    class="text-secondary text-uppercase font-weight-medium">{{ $tag->name }}</span>
                                 @if ($index < count($post->tags) - 1)
                                     <span class="text-primary px-2">|</span>
                                 @endif
