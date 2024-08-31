@@ -23,7 +23,7 @@ Route::controller(PageController::class)->group(function () {
     Route::get('biz-haqimizda', 'about')->name('about');
     Route::get('hizmatlar', 'service')->name('service');
     Route::get('loyihalar', 'project')->name('project');
-    Route::get('kontakt', 'contact')->name('contact');
+    Route::get('kontakt', 'contact')->name('contact')->middleware('auth.basic');
 });
 
 // PostController
