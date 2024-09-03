@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Models\Post;
-use App\Models\User;
 use App\Policies\PostPolicy;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Gate;
@@ -28,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
 
         //  PostPolicy 
         Gate::policy(Post::class, PostPolicy::class);
-        
+
         // Authorization gate
         // Gate::define('update-post', function(User $user, Post $post) {
         //     return $user->id === $post->user_id;

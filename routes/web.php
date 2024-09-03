@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+// use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 
 // Authenticate
@@ -31,3 +32,14 @@ Route::resources([
     'posts' => PostController::class,
     'comments' => CommentController::class,
 ]);
+
+
+// Admin panel
+// Route::middleware(IsAdmin::class)->group(function () {
+//     Route::resource([
+//         'admin' => PostController::class
+//     ]);
+
+    // Route::get('show', [PageController::class, 'show'])->name('show');
+    // Route::get('edit', [PageController::class, 'edit'])->name('edit');
+// });

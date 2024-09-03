@@ -38,7 +38,9 @@
                     </div>
 
                     <div class="mb-5">
-                        <img class="img-fluid rounded w-100 mb-4" src="{{ $post->image ? asset('storage/' . $post->image) : '/img/blog-1.jpg' }}" alt="{{ $post->title }}">
+                        <img class="img-fluid rounded w-100 mb-4"
+                            src="{{ $post->image ? asset('storage/' . $post->image) : '/img/blog-1.jpg' }}"
+                            alt="{{ $post->title }}">
                         <h4>{{ $post->description }}</h4>
                         <p>{{ $post->content }}</p>
                     </div>
